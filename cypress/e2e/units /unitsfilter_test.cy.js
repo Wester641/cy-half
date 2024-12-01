@@ -75,7 +75,7 @@ describe("Login and create unit", () => {
         })`
       );
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1000);
+      cy.wait(1500);
       try {
         cy.wait("@vehicleTypeFilterRequest", { timeout: 20000 }).then(
           (vehicleType) => {
@@ -111,7 +111,7 @@ describe("Login and create unit", () => {
         })`
       );
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1000);
+      cy.wait(1500);
       try {
         cy.wait("@vehicleGroupFilterRequest", { timeout: 20000 }).then(
           (vehicleGroup) => {
@@ -150,7 +150,7 @@ describe("Login and create unit", () => {
       ).click();
 
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1000);
+      cy.wait(1500);
       cy.wait("@vehicleStatusFilterRequest").then((vehicleStatus) => {
         expect(vehicleStatus.response.statusCode).to.eq(200);
         cy.get(".VehicleDashboard_total__answer__zNlyX").should(

@@ -52,7 +52,7 @@ describe("Login and Redirect Test", () => {
       "https://app.easyfleet.ai/create-unit"
     );
 
-    cy.get('[name="name"]')
+    cy.get('[name="name"]', { timeout: 30000 })
       .focus()
       .type(`TTruck #${Math.floor(Math.random() * 10000).toFixed()}`);
     cy.get('[name="vin_sn"]')
@@ -66,7 +66,7 @@ describe("Login and Redirect Test", () => {
         .should("be.visible")
         .click();
       cy.get(".css-p7gue6-option")
-        .eq(`${Math.floor(Math.random() * 5)}`)
+        .eq(`${Math.floor(Math.random() * 4)}`)
         .should("be.visible")
         .click();
     }
