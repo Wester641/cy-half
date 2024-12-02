@@ -110,7 +110,7 @@ describe("Login and Redirect Test", () => {
       "be.visible"
     );
 
-    // cy.wait(2000
+    // cy.wait(2000)
     // cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); если хотите увидеть подробную информацию
   });
 });

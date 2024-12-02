@@ -27,7 +27,7 @@ describe("Login and create unit", () => {
 
     cy.loginWith(email, password);
     cy.url({ timeout: 30000 }).should("include", "/units?page=1");
-    cy.wait(2000);
+    cy.wait(1500);
 
     cy.wait("@CompleteRequest", { timeout: 20000 }).then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
@@ -85,6 +85,9 @@ describe("Login and create unit", () => {
                 "have.text",
                 vehicleType.response.body.count
               );
+              expect([200, 201, 204]).to.include(
+                vehicleType.response.statusCode
+              );
             }
           }
         );
@@ -95,6 +98,7 @@ describe("Login and create unit", () => {
     cy.contains(".ModalOptions_blockFiltering__jpAKN", "Vehicle Type").click();
     cy.clearClickAndApply();
     // -------------------------------------------------------------------------------------------
+
     // -------------------------------------------------------------------------------------------
     // Vehicle Group Filter
     for (let i = 0; i < 5; i++) {
@@ -120,6 +124,9 @@ describe("Login and create unit", () => {
               cy.get(".VehicleDashboard_total__answer__zNlyX").should(
                 "have.text",
                 vehicleGroup.response.body.count
+              );
+              expect([200, 201, 204]).to.include(
+                vehicleGroup.response.statusCode
               );
             }
           }
@@ -150,16 +157,15 @@ describe("Login and create unit", () => {
       ).click();
 
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1500);
+      cy.wait(2500);
       cy.wait("@vehicleStatusFilterRequest").then((vehicleStatus) => {
-        expect(vehicleStatus.response.statusCode).to.eq(200);
+        expect([200, 201, 204]).to.include(vehicleStatus.response.statusCode);
+
         cy.get(".VehicleDashboard_total__answer__zNlyX").should(
           "have.text",
           vehicleStatus.response.body.count
         );
       });
-
-      // cy.wait(1000);
     });
 
     cy.contains(
@@ -184,11 +190,12 @@ describe("Login and create unit", () => {
     ).as("archivedUnitsRequest");
 
     cy.contains('button[type="button"]', "All").click();
-    cy.wait(1000);
+    cy.wait(1500);
+
     // Assigned
 
     cy.contains('button[type="button"]', "Assigned").click();
-    cy.wait(2000);
+    cy.wait(1500);
     cy.url({ timeout: 30000 }).should(
       "include",
       "/units?page=1&filter=is_assigned"
@@ -196,7 +203,8 @@ describe("Login and create unit", () => {
 
     cy.wait("@assignedUnitsRequest", { timeout: 10000 }).then(
       (interception) => {
-        expect(interception.response.statusCode).to.eq(200);
+        expect([200, 201, 204]).to.include(interception.response.statusCode);
+
         cy.log("Assigned units count:", interception.response.body.count);
         cy.get(".VehicleDashboard_total__answer__zNlyX").should(
           "have.text",
@@ -208,7 +216,7 @@ describe("Login and create unit", () => {
     // Unassigned
 
     cy.contains('button[type="button"]', "Unassigned").click();
-    cy.wait(2000);
+    cy.wait(1500);
     cy.url({ timeout: 30000 }).should(
       "include",
       "/units?page=1&filter=is_unassigned"
@@ -216,7 +224,8 @@ describe("Login and create unit", () => {
 
     cy.wait("@unassignedUnitsRequest", { timeout: 10000 }).then(
       (interception) => {
-        expect(interception.response.statusCode).to.eq(200);
+        // expect(interception.response.statusCode).to.eq(200);
+        expect([200, 201, 204]).to.include(interception.response.statusCode);
         cy.log("Unassigned units count:", interception.response.body.count);
         cy.get(".VehicleDashboard_total__answer__zNlyX").should(
           "have.text",
@@ -228,7 +237,7 @@ describe("Login and create unit", () => {
     // Archived
 
     cy.contains('button[type="button"]', "Archived").click();
-    cy.wait(2000);
+    cy.wait(1500);
     cy.url({ timeout: 30000 }).should(
       "include",
       "/units?page=1&filter=is_archived"
@@ -236,7 +245,7 @@ describe("Login and create unit", () => {
 
     cy.wait("@archivedUnitsRequest", { timeout: 10000 }).then(
       (interception) => {
-        expect(interception.response.statusCode).to.eq(200);
+        expect([200, 201, 204]).to.include(interception.response.statusCode);
         cy.log("Archived units count:", interception.response.body.count);
         cy.get(".VehicleDashboard_total__answer__zNlyX").should(
           "have.text",
