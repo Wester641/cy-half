@@ -13,6 +13,13 @@ Cypress.Commands.add("clearClickAndApply", () => {
   cy.get('svg[data-testid="ClearIcon"]').should("be.visible").click();
   cy.contains("button[type='button']", "Apply").should("be.visible").click();
 });
+Cypress.Commands.add("loginEnter", (email, password) => {
+  cy.intercept("POST", "/api/v1/accounts/login/").as("loginRequest");
+  cy.loginWith(email, password);
+  cy.wait("@loginRequest", { timeout: 10000 }).then((interception) => {
+    expect([200, 201, 204]).to.include(interception.response.statusCode);
+  });
+});
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
