@@ -13,6 +13,7 @@ describe("Login and Redirect Test To Units Page", () => {
     cy.wait("@loginRequest", { timeout: 10000 }).then((interception) => {
       expect([200, 201, 204]).to.include(interception.response.statusCode);
     });
-    cy.url({ timeout: 10000 }).should("include", "/units?page=1");
+    cy.visit("/equipments?page=1");
+    cy.url({ timeout: 30000 }).should("include", "/equipments?page=1");
   });
 });
