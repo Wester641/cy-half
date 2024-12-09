@@ -3,8 +3,8 @@ describe("Login and Redirect Test To Units Page", () => {
   const password = "zafarzhon77";
 
   beforeEach(() => {
-    cy.visit("/");
-    cy.viewport(1920, 1200);
+    cy.visit("https://dev-app.easyfleet.ai/login");
+    // cy.viewport(1920, 1200);
   });
 
   it("should login and verify title on production page", () => {

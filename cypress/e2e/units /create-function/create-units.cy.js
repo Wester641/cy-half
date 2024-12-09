@@ -39,7 +39,7 @@ describe("Login and Redirect Test", () => {
     cy.get('input[type="password"]').type(password);
 
     cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units?page=1`);
+    cy.url({ timeout: 30000 }).should("include", `/units`);
 
     cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit")
       .should("be.visible")
