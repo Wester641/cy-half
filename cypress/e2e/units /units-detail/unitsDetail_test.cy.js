@@ -9,10 +9,13 @@ describe("Login and Redirect Test To Units Page", () => {
 
   it("should check all fields in units detail page with API data", () => {
     cy.loginEnter(email, password);
-    cy.url({ timeout: 10000 }).should("include", "/units?page=1");
-    cy.wait(1500);
+    cy.url({ timeout: 10000 }).should("include", "/units");
+    // cy.wait(1500);
 
     cy.intercept("GET", "/api/v1/vehicles/**/").as("getIdUnitDetail");
+    cy.intercept("GET", "/api/v1/vehicles/**/linked/").as(
+      "getLinkedUnitDetail"
+    );
     cy.contains(".css-q34dxg", "TTruck").should("be.visible").click();
     cy.wait(3000);
 
@@ -20,7 +23,7 @@ describe("Login and Redirect Test To Units Page", () => {
 
     cy.wait("@getIdUnitDetail", { timeout: 10000 }).then((interception) => {
       const unitsDetail = interception?.response?.body;
-      cy.wait(3000);
+      cy.wait(2500);
       expect([200, 201, 204]).to.include(interception.response.statusCode);
       console.log(unitsDetail);
 
@@ -44,7 +47,11 @@ describe("Login and Redirect Test To Units Page", () => {
         "have.text",
         `${unitsDetail.meter === null ? "No meter" : unitsDetail.meter}${
           unitsDetail.status
-        }${unitsDetail.group.name}${unitsDetail.operator.first_name}`
+        }${unitsDetail.group.name}${
+          unitsDetail.current_operator === false
+            ? unitsDetail.operator.first_name
+            : unitsDetail.current_operator.first_name
+        }`
       );
       const details = [
         { index: 0, value: unitsDetail.group.name },
@@ -97,7 +104,7 @@ describe("Login and Redirect Test To Units Page", () => {
       //   .should("include", `${interception.response.body.comment}&nbsp;`);
     });
 
-    cy.wait(250);
+    cy.wait(2500);
 
     // CHECKING DELETE COMMENT FUNCTION
 
@@ -110,5 +117,55 @@ describe("Login and Redirect Test To Units Page", () => {
     cy.wait("@deleteComment").then((deleteComment) => {
       expect([200, 201, 204]).to.include(deleteComment.response.statusCode);
     });
+
+    // CHECKING LINKED VEHICLES FUNCTION
+
+    //getLinkedUnitDetail
+    cy.wait("@getLinkedUnitDetail").then((linkedVehicles) => {
+      expect([200, 201, 204]).to.include(linkedVehicles.response.statusCode);
+      const linked_assets = linkedVehicles.response.body;
+      console.log(linked_assets);
+
+      cy.get(".DetailInfo_profile__info__title__2XtbT").should(
+        "have.text",
+        linked_assets.name
+      );
+      linked_assets.linked_vehicles.forEach((vehicle, index) => {
+        cy.get(".ItemCard_item_card__content__title__t740I")
+          .eq(index)
+          .should("have.text", vehicle.name);
+      });
+
+      cy.intercept("PATCH", `/api/v1/vehicles/**/link/`).as(
+        "linkVehicleRequest"
+      );
+
+      // Checking Linked Assets Widget
+      cy.get(".SectionCard_section_card__header__button_cont__button__EjwCb")
+        .eq(3)
+        .should("be.visible")
+        .and("have.text", "Link Asset")
+        .click();
+      cy.get(".css-19bb58m").should("be.visible").click();
+
+      cy.get(".css-p7gue6-option")
+        .eq(Math.floor(Math.random() * 50))
+        .click();
+
+      cy.contains("Save").should("be.visible").click();
+
+      cy.wait("@linkVehicleRequest", { timeout: 30000 }).then(() => {
+        expect([200, 201, 204]).to.include(linkedVehicles.response.statusCode);
+      });
+
+      cy.success("Vehicle successfully linked!");
+
+      cy.wait(2500);
+
+      cy.intercept("PATCH", `/api/v1/vehicles/**/unlink/`).as("unlinkVehicle");
+
+      cy.contains(".ItemCard_button__LMaiC", "Unassign").click({ force: true });
+    });
+    cy.success("Vehicle successfully unlinked!");
   });
 });

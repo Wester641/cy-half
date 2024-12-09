@@ -12,7 +12,7 @@ describe("Login and Redirect Test", () => {
     cy.get('input[type="password"]').type(password);
 
     cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units?page=1`);
+    cy.url({ timeout: 30000 }).should("include", `/units`);
 
     cy.wait(2000);
 

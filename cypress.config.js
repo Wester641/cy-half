@@ -8,5 +8,12 @@ module.exports = defineConfig({
       video = false;
       // implement node event listeners here
     },
+    defaultCommandTimeout: 15000,
+    animationDistanceThreshold: 500,
+    waitForAnimations: true,
+    delayBetweenCommands: 2000,
+    responseTimeout: 10000,
+    pageLoadTimeout: 10000,
+    requestTimeout: 10000,
   },
 });

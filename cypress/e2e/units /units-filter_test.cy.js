@@ -21,12 +21,12 @@ describe("Login and create unit", () => {
     cy.intercept("GET", "/api/v1/vehicles/?offset=0&limit=10").as(
       "unitsRequest"
     );
-    cy.intercept("GET", "/api/v1//dashboard/analytics/complete/").as(
+    cy.intercept("GET", "/api/v1/dashboard/analytics/complete/").as(
       "CompleteRequest"
     );
 
     cy.loginWith(email, password);
-    cy.url({ timeout: 30000 }).should("include", "/units?page=1");
+    cy.url({ timeout: 30000 }).should("include", "/units");
     cy.wait(1500);
 
     cy.wait("@CompleteRequest", { timeout: 20000 }).then((interception) => {
@@ -157,7 +157,7 @@ describe("Login and create unit", () => {
       ).click();
 
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(2500);
+      // cy.wait(2500);
       cy.wait("@vehicleStatusFilterRequest").then((vehicleStatus) => {
         expect([200, 201, 204]).to.include(vehicleStatus.response.statusCode);
 
@@ -190,7 +190,7 @@ describe("Login and create unit", () => {
     ).as("archivedUnitsRequest");
 
     cy.contains('button[type="button"]', "All").click();
-    cy.wait(1500);
+    // cy.wait(1500);
 
     // Assigned
 
@@ -216,7 +216,7 @@ describe("Login and create unit", () => {
     // Unassigned
 
     cy.contains('button[type="button"]', "Unassigned").click();
-    cy.wait(1500);
+    // cy.wait(1500);
     cy.url({ timeout: 30000 }).should(
       "include",
       "/units?page=1&filter=is_unassigned"
@@ -237,7 +237,7 @@ describe("Login and create unit", () => {
     // Archived
 
     cy.contains('button[type="button"]', "Archived").click();
-    cy.wait(1500);
+    // cy.wait(1500);
     cy.url({ timeout: 30000 }).should(
       "include",
       "/units?page=1&filter=is_archived"

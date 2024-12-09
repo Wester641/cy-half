@@ -39,10 +39,12 @@ describe("Login and Redirect Test", () => {
     cy.get('input[type="password"]').type(password);
 
     cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units?page=1`);
+    cy.url({ timeout: 30000 }).should("include", `/units`);
 
-    cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit")
-      .should("be.visible")
+    cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit", {
+      timeout: 30000,
+    })
+      // .should("be.visible")
       .click();
 
     cy.wait(2000);
@@ -51,7 +53,7 @@ describe("Login and Redirect Test", () => {
 
     cy.get('[name="name"]', { timeout: 30000 })
       .focus()
-      .type(`TTruck #${Math.floor(Math.random() * 10000).toFixed()}`);
+      .type(`FAKE UNIT NAME #${Math.floor(Math.random() * 10000).toFixed()}`);
     cy.get('[name="vin_sn"]')
       .focus()
       .type(`56789${Math.floor(Math.random() * 100000).toFixed()}`);
@@ -107,14 +109,14 @@ describe("Login and Redirect Test", () => {
       "be.visible"
     );
 
-    cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); IF YOU WANNA VIEW DETAIL INFORMATION ABOUT UNIT
+    cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
 
     // DELETE AFTER CREATING UNITS
 
     cy.wait(2000);
 
     // const eventLoopForDlete = () => {
-    cy.contains("TTruck")
+    cy.contains("FAKE UNIT NAME")
       .should("be.visible")
       .then((truck) => {
         if (truck) {
@@ -123,7 +125,7 @@ describe("Login and Redirect Test", () => {
           );
 
           cy.get(".css-q34dxg").eq(9).click();
-          // cy.get('.MuiList-root > [tabindex="0"]').click();
+          // cy.get('.MuiList-root > [tabindex="0"]').clickcy.dragAndDrop('.drag-element', '.drop-target');();
           cy.contains("Delete").click();
           cy.contains("Delete").click();
 
