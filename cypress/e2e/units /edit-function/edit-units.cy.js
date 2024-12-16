@@ -1,4 +1,4 @@
-describe("Login and Redirect Test", () => {
+describe("Editing Unit by ID", () => {
   const email = "zafarzhon77@gmail.com";
   const password = "zafarzhon77";
 
@@ -42,7 +42,7 @@ describe("Login and Redirect Test", () => {
     cy.url({ timeout: 30000 }).should("include", `/units`);
 
     cy.wait(2000);
-    cy.contains(".css-q34dxg", "TTruck").should("be.visible").click();
+    cy.contains(".css-q34dxg", "TRAILER").should("be.visible").click();
 
     cy.url({ timeout: 30000 }).should(
       "include",

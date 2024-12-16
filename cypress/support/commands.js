@@ -25,14 +25,19 @@ Cypress.Commands.add("success", (message) => {
     timeout: 30000,
   }).should("be.visible");
 });
-Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector) => {
+Cypress.Commands.add("dragAndDrop", (dragSelector, dropSelector) => {
   cy.get(dragSelector)
-    .trigger('mousedown', { which: 1, button: 0 })
-    .trigger('mousemove', { clientX: 100, clientY: 100 })
+    .trigger("mousedown", { which: 1, button: 0 })
+    .trigger("mousemove", { clientX: 100, clientY: 100 })
     .get(dropSelector)
-    .trigger('mousemove')
-    .trigger('mouseup', { force: true });
+    .trigger("mousemove")
+    .trigger("mouseup", { force: true });
 });
+
+Cypress.Commands.add("GET", (requestLink, responseName) => {
+  cy.intercept("GET", requestLink).as(responseName);
+});
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite

@@ -1,4 +1,4 @@
-describe("Login and create unit", () => {
+describe("Checking All filters in Units section", () => {
   const email = "zafarzhon77@gmail.com";
   const password = "zafarzhon77";
 
@@ -17,7 +17,7 @@ describe("Login and create unit", () => {
     cy.viewport(1700, 1200);
   });
 
-  it("should login and verify title on production page", () => {
+  it("should check all filters without search filter", () => {
     cy.intercept("GET", "/api/v1/vehicles/?offset=0&limit=10").as(
       "unitsRequest"
     );
@@ -62,7 +62,8 @@ describe("Login and create unit", () => {
     });
     // -------------------------------------------------------------------------------------------
 
-    // Vehicle Type Filter
+    // Checking "Vehicle Type" filter
+
     for (let i = 0; i < 5; i++) {
       cy.intercept("GET", `/api/v1/vehicles/**`).as("vehicleTypeFilterRequest");
       cy.contains(
@@ -75,7 +76,7 @@ describe("Login and create unit", () => {
         })`
       );
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1500);
+      // cy.wait(1500);
       try {
         cy.wait("@vehicleTypeFilterRequest", { timeout: 20000 }).then(
           (vehicleType) => {
@@ -100,7 +101,7 @@ describe("Login and create unit", () => {
     // -------------------------------------------------------------------------------------------
 
     // -------------------------------------------------------------------------------------------
-    // Vehicle Group Filter
+    // Checking "Vehicle Group" filter
     for (let i = 0; i < 5; i++) {
       cy.intercept("GET", `/api/v1/vehicles/**`).as(
         "vehicleGroupFilterRequest"
@@ -115,7 +116,7 @@ describe("Login and create unit", () => {
         })`
       );
       cy.contains("button[type='button']", "Apply").click();
-      cy.wait(1500);
+      // cy.wait(1500);
       try {
         cy.wait("@vehicleGroupFilterRequest", { timeout: 20000 }).then(
           (vehicleGroup) => {
@@ -140,7 +141,8 @@ describe("Login and create unit", () => {
 
     // -------------------------------------------------------------------------------------------
 
-    // Vehicle Status Filter
+    // Checking "Vehicle Status" filter
+
     StatusArray.forEach((status) => {
       cy.intercept("GET", `/api/v1/vehicles/**`).as(
         "vehicleStatusFilterRequest"
@@ -192,7 +194,7 @@ describe("Login and create unit", () => {
     cy.contains('button[type="button"]', "All").click();
     // cy.wait(1500);
 
-    // Assigned
+    // Checking "Assigned" filter
 
     cy.contains('button[type="button"]', "Assigned").click();
     cy.wait(1500);
@@ -213,7 +215,7 @@ describe("Login and create unit", () => {
       }
     );
 
-    // Unassigned
+    // Checking "Unassigned" filter
 
     cy.contains('button[type="button"]', "Unassigned").click();
     // cy.wait(1500);
@@ -234,7 +236,7 @@ describe("Login and create unit", () => {
       }
     );
 
-    // Archived
+    // Checking "Archived" filter
 
     cy.contains('button[type="button"]', "Archived").click();
     // cy.wait(1500);
