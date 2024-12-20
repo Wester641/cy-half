@@ -5,16 +5,20 @@ Cypress.Commands.add("buttonClick", (identifier) => {
   cy.get(identifier).click();
 });
 Cypress.Commands.add("loginWith", (email, password) => {
-  cy.get('input[type="text"]').type(email);
-  cy.get('input[type="password"]').type(password);
-  cy.get('button[type="submit"]').click();
+  // cy.get('input[type="text"]', { timeout: 50000 }).type(email);
+  // cy.get('input[type="password"]`', { timeout: 50000 }).type(password);
+  cy.get(".css-mnn31", { timeout: 50000 }).eq(0).type(email);
+  cy.get(".css-mnn31", { timeout: 50000 }).eq(1).type(password);
+  cy.get('button[type="submit"]', { timeout: 50000 }).click();
 });
 Cypress.Commands.add("clearClickAndApply", () => {
   cy.get('svg[data-testid="ClearIcon"]').should("be.visible").click();
   cy.contains("button[type='button']", "Apply").should("be.visible").click();
 });
 Cypress.Commands.add("loginEnter", (email, password) => {
-  cy.intercept("POST", "/api/v1/accounts/login/").as("loginRequest");
+  cy.intercept("POST", "/api/v1/accounts/login/", { timeout: 10000 }).as(
+    "loginRequest"
+  );
   cy.loginWith(email, password);
   cy.wait("@loginRequest", { timeout: 10000 }).then((interception) => {
     expect([200, 201, 204]).to.include(interception.response.statusCode);
