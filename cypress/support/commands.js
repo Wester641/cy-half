@@ -4,13 +4,15 @@ Cypress.Commands.add("write", (identifier, data) => {
 Cypress.Commands.add("buttonClick", (identifier) => {
   cy.get(identifier).click();
 });
+
+// LOGIN COMMAND
 Cypress.Commands.add("loginWith", (email, password) => {
-  // cy.get('input[type="text"]', { timeout: 50000 }).type(email);
-  // cy.get('input[type="password"]`', { timeout: 50000 }).type(password);
   cy.get(".css-mnn31", { timeout: 50000 }).eq(0).type(email);
   cy.get(".css-mnn31", { timeout: 50000 }).eq(1).type(password);
   cy.get('button[type="submit"]', { timeout: 50000 }).click();
 });
+
+// IN UNIT SECTION, NEED TO CLEAR CHOOSED FILTERS AND APPLY THEM
 Cypress.Commands.add("clearClickAndApply", () => {
   cy.get('svg[data-testid="ClearIcon"]').should("be.visible").click();
   cy.contains("button[type='button']", "Apply").should("be.visible").click();
