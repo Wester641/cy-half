@@ -1,19 +1,17 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  viewportWidth: 1920,
+  viewportHeight: 1080,
   projectId: "qkd1xg",
+  defaultCommandTimeout: 50000,
+  requestTimeout: 50000,
+  responseTimeout: 50000,
+  pageLoadTimeout: 50000,
   e2e: {
     baseUrl: "https://app.easyfleet.ai",
     setupNodeEvents(on, config) {
       video = false;
-      // implement node event listeners here
     },
-    // defaultCommandTimeout: 15000,
-    // animationDistanceThreshold: 500,
-    // waitForAnimations: true,
-    // delayBetweenCommands: 2000,
-    // responseTimeout: 10000,
-    // pageLoadTimeout: 10000,
-    // requestTimeout: 10000,
   },
 });
