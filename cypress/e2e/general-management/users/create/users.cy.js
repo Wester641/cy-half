@@ -126,7 +126,10 @@ describe("CRUD in users section", () => {
       expect([200, 201, 204]).to.include(interception.response.statusCode);
     });
     cy.wait("@UserDetails").its("response.statusCode").should("eq", 200);
+
     cy.url().should("include", "/users/");
+    cy.visit("/users");
+    cy.wait(3000);
   });
 
   // REMOVE EDITED USER
