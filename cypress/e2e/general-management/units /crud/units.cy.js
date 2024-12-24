@@ -31,7 +31,6 @@ describe("Create Unit and Edit Unit, Delete Unit", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.clearLocalStorage();
   });
 
   it("should create unit and visit to unit-detail page", () => {
