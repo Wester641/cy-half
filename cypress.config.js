@@ -2,6 +2,8 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   projectId: "qkd1xg",
+  viewportHeight: 1180,
+  viewportWidth: 1920,
   e2e: {
     baseUrl: "https://app.easyfleet.ai",
     setupNodeEvents(on, config) {
