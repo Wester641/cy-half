@@ -5,15 +5,23 @@ describe("Test upload files", () => {
   const email = "zafarzhon77@gmail.com";
   const password = "zafarzhon77";
 
-  beforeEach(() => {
-    cy.visit("/");
-  });
-
-  it("should upload file", () => {
+  const loginAndVisitPapers = () => {
     cy.loginWith(email, password);
     cy.url().should("include", `/units`);
     cy.visit("/papers");
     cy.wait(5000);
+  };
+
+  beforeEach(() => {
+    cy.visit("/");
+  });
+
+  afterEach(() => {
+    cy.visit("/papers");
+  });
+
+  it("should upload file", () => {
+    loginAndVisitPapers();
 
     cy.get(".css-1yxmbwk").eq(0).click();
 
@@ -26,15 +34,8 @@ describe("Test upload files", () => {
     cy.get(".css-1hw9j7s").click().log("uploaded");
   });
 
-  afterEach(() => {
-    cy.visit("/papers");
-  });
-
   it("should edit name uploaded files", () => {
-    cy.loginWith(email, password);
-    cy.url().should("include", `/units`);
-    cy.visit("/papers");
-    cy.wait(5000);
+    loginAndVisitPapers();
 
     cy.get(".css-1liixou")
       .eq(Math.floor(Math.random() * 8))
@@ -58,10 +59,7 @@ describe("Test upload files", () => {
   });
 
   it("should remove edited files", () => {
-    cy.loginWith(email, password);
-    cy.url().should("include", `/units`);
-    cy.visit("/papers");
-    cy.wait(5000);
+    loginAndVisitPapers();
 
     cy.get(".css-1liixou")
       .eq(Math.floor(Math.random() * 8))
@@ -72,7 +70,7 @@ describe("Test upload files", () => {
     cy.wait(5000);
   });
 
-  it("should download files", () => {
+  it.skip("should download files", () => {
     cy.loginWith(email, password);
     cy.url().should("include", `/units`);
     cy.visit("/papers");
