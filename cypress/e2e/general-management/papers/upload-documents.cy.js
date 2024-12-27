@@ -70,11 +70,8 @@ describe("Test upload files", () => {
     cy.wait(5000);
   });
 
-  it.skip("should download files", () => {
-    cy.loginWith(email, password);
-    cy.url().should("include", `/units`);
-    cy.visit("/papers");
-    cy.wait(5000);
+  it("should download files", () => {
+    loginAndVisitPapers();
 
     cy.get(".css-1liixou")
       .eq(Math.floor(Math.random() * 8))
