@@ -44,6 +44,12 @@ Cypress.Commands.add("GET", (requestLink, responseName) => {
   cy.intercept("GET", requestLink).as(responseName);
 });
 
+Cypress.on("uncaught:exception", (err, runnable) => {
+  if (err.message.includes("ResizeObserver loop completed")) {
+    return false;
+  }
+});
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
