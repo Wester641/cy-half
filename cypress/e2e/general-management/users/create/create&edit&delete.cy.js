@@ -4,7 +4,7 @@ describe("Login and create unit", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1900, 1280);
+    // cy.viewport(1900, 1280);
   });
 
   it("should login and go to users page and create users, edit users and delete users on production", () => {
