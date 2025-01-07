@@ -8,21 +8,15 @@ describe("Checking assignement create function", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1200);
+    cy.viewport(1920, 1280);
   });
 
-  it("should check assignement create function", () => {
-    cy.GET("/api/v1/company/", "firstRender");
-
+  it("should fill all fields and create assignement", () => {
     cy.loginWith(email, password);
-    // cy.url({ timeout: 30000 }).should("include", "/units");
-    cy.wait(1500);
+    cy.url(timeout).should("include", "/units");
+    cy.visit("/assignments");
+    cy.wait(3000);
 
-    cy.wait("@firstRender", timeout).then((interception) => {
-      expect([200, 201, 204]).to.include(interception.response.statusCode);
-      cy.get(".Sidebar_sidebarItem__2s00-").eq(4).should("be.visible").click();
-    });
-    // css-19bb58m
     cy.get(".css-1yxmbwk", timeout).click();
 
     for (let i = 0; i < 2; i++) {
@@ -30,45 +24,72 @@ describe("Checking assignement create function", () => {
       cy.get(".css-p7gue6-option", timeout)
         .eq(Math.floor(Math.random() * 6))
         .click();
-      // .shadow();
     }
 
-    cy.get("input[type='date']").eq(0).type("2024-12-17").trigger("change");
+    cy.get(".css-mnn31", timeout)
+      .eq(0)
+      .invoke("val", "2024-12-24")
+      .trigger("input")
+      .trigger("change");
 
-    cy.get("input[type='time']").eq(0).invoke("val", "05:00").trigger("change");
-
-    // STARTING ODOMETER
     cy.get(".css-mnn31", timeout)
       .eq(2)
       .invoke("val")
       .then((value) => {
         if (!value) {
-          cy.get(".css-mnn31").eq(2).type("30050").blur();
-        }
-      });
-
-    cy.get("input[type='date']").eq(1).type("2024-12-27").trigger("change");
-
-    cy.get("input[type='time']").eq(1).invoke("val", "19:00").trigger("change");
-
-    // ENDING ODOMETER
-    cy.get(".css-mnn31", timeout)
-      .eq(2)
-      .invoke("val")
-      .then((value) => {
-        if (value) {
           cy.get(".css-mnn31")
-            .eq(5)
-            .type(`${value + 1}`)
+            .eq(2)
+            .type(Math.floor(Math.random() * 50) * 300)
             .blur();
-        } else {
-          cy.get(".css-mnn31").eq(5).type("30100").blur();
         }
       });
+
+    cy.get(".css-mnn31", timeout)
+      .eq(3)
+      .invoke("val", "2024-12-27")
+      .trigger("input")
+      .trigger("change");
+
     cy.get(".css-10oer18")
       .eq(0)
-      .type("Some description for assignement vehicle")
-      .blur();
+      .type("Some description for assignement vehicle");
+    cy.wait(3000);
+
+    cy.get("button[type='submit']", timeout).click();
+  });
+
+  it("should find created assignement and edit it", () => {
+    cy.loginWith(email, password);
+    cy.url(timeout).should("include", "/units");
+    cy.visit("/assignments");
+    cy.wait(3000);
+
+    cy.contains("Ozodbek", timeout).should("be.visible").click();
+    cy.get(".css-mrqjss").eq(0).click();
+
+    cy.get(".css-mnn31", timeout)
+      .eq(0)
+      .invoke("val", "2024-12-26")
+      .trigger("input")
+      .trigger("change");
+
+    cy.get(".css-mnn31", timeout)
+      .eq(3)
+      .invoke("val", "2025-01-27")
+      .trigger("input")
+      .trigger("change");
+
+    for (let i = 0; i < 2; i++) {
+      cy.get(".css-19bb58m", timeout).eq(i).click(timeout);
+      cy.get(".css-p7gue6-option", timeout)
+        .eq(Math.floor(Math.random() * 6))
+        .click();
+    }
+
+    cy.get(".css-10oer18")
+      .eq(0)
+      .type("Some description for editing assignement vehicles");
+    cy.wait(3000);
 
     cy.get("button[type='submit']", timeout).click();
   });
