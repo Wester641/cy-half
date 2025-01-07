@@ -1,4 +1,4 @@
-describe("Login and Redirect Test", () => {
+describe("Create Unit and Edit Unit, Delete Unit", () => {
   const email = "zafarzhon77@gmail.com";
   const password = "zafarzhon77";
 
@@ -31,28 +31,20 @@ describe("Login and Redirect Test", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1300);
   });
 
-  it("should create units and verify title on production page", () => {
-    cy.get('input[type="text"]').type(email);
-    cy.get('input[type="password"]').type(password);
+  it("should create unit and visit to unit-detail page", () => {
+    cy.loginWith(email, password);
 
-    cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units`);
+    cy.url().should("include", `/units`);
 
-    cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit")
-      .should("be.visible")
-      .click();
+    cy.visit("/create-unit");
 
     cy.wait(2000);
 
-    cy.url({ timeout: 30000 }).should(
-      "include",
-      "https://app.easyfleet.ai/create-unit"
-    );
+    cy.url().should("include", "/create-unit");
 
-    cy.get('[name="name"]', { timeout: 30000 })
+    cy.get('[name="name"]')
       .focus()
       .type(`TTruck #${Math.floor(Math.random() * 10000).toFixed()}`);
     cy.get('[name="vin_sn"]')
@@ -106,11 +98,65 @@ describe("Login and Redirect Test", () => {
       expect([200, 201]).to.include(interception.response.statusCode);
     });
 
-    cy.contains(".Toastify__toast-body", "Success!", { timeout: 30000 }).should(
-      "be.visible"
-    );
+    cy.contains(".Toastify__toast-body", "Success!").should("be.visible");
+    cy.wait(5000);
+    cy.get(".css-q34dxg").eq(1).should("be.visible").click();
+    cy.wait(5000);
+  });
 
-    // cy.wait(2000)
-    // cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); если хотите увидеть подробную информацию
+  // EDIT UNIT
+  it("should find unit and edit", () => {
+    cy.loginWith(email, password);
+
+    cy.url().should("include", `/units`);
+    cy.wait(2000);
+    cy.get(".css-q34dxg").eq(1).should("be.visible").click();
+    cy.wait(2000);
+    cy.get(".css-1yxmbwk").eq(0).should("be.visible").click();
+    cy.wait(2000);
+    cy.get('[name="name"]')
+      .invoke("val")
+      .then((name) => {
+        const updatedName = name.slice(0, -2);
+        cy.get('[name="name"]')
+          .clear()
+          .type(updatedName + "33");
+      });
+    cy.contains("button", "Save").should("be.visible").click();
+    cy.wait(5000);
+    cy.get(".css-q34dxg").eq(1).should("be.visible").click();
+    cy.wait(5000);
+  });
+
+  // DELETE UNIT
+  it("should find unit and delete", () => {
+    cy.loginWith(email, password);
+
+    cy.url().should("include", `/units`);
+
+    cy.wait(2000);
+
+    cy.get(".css-1yxmbwk")
+      .eq(1)
+      .should("be.visible")
+      .then((truck) => {
+        if (truck) {
+          cy.intercept("DELETE", "/api/v1/vehicles/*/delete/").as(
+            "deleteUnitRequest"
+          );
+
+          cy.get(".css-q34dxg").eq(9).click();
+          cy.contains("Delete").click();
+          cy.contains("Delete").click();
+
+          cy.wait("@deleteUnitRequest").then((interception) => {
+            console.log(interception);
+            expect([200, 201, 204]).to.include(
+              interception.response.statusCode
+            );
+          });
+        }
+      });
   });
 });
+
