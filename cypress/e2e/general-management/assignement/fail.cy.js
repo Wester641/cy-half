@@ -1,8 +1,9 @@
 // <reference types="cypress" />
 
 describe("Login and create unit", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
+
 
   beforeEach(() => {
     cy.visit("/");

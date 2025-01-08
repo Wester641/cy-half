@@ -1,6 +1,6 @@
 describe("Editing Unit by ID", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   const stateRegistration = [
     "Illinois",
@@ -27,27 +27,23 @@ describe("Editing Unit by ID", () => {
     "Brown",
   ];
   const trimTrucks = ["SE", "LE", "XLE"];
-  const truckMsrpRanges = ["80000", "120000", "140000", "180000"];
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1300);
   });
 
   it("should check and edit unit by id", () => {
-    cy.loginEnter(email, password);
+    cy.loginWith(email, password);
+
     cy.intercept("GET", "/api/v1/vehicles/**/").as("getDataUnitDetailById"); // getting data from API, for edit unit
 
     cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units`);
+    cy.url().should("include", `/units`);
 
     cy.wait(2000);
-    cy.contains(".css-q34dxg", "TRAILER").should("be.visible").click();
+    cy.contains(".css-q34dxg", "Truck").should("be.visible").click();
 
-    cy.url({ timeout: 30000 }).should(
-      "include",
-      `https://app.easyfleet.ai/units/`
-    );
+    cy.url().should("include", `https://app.easyfleet.ai/units/`);
 
     cy.wait(2500);
 
@@ -55,28 +51,13 @@ describe("Editing Unit by ID", () => {
       .should("be.visible")
       .click();
 
-    // cy.wait(2000);
-
-    cy.url({ timeout: 30000 }).should("include", "/units/update/");
+    cy.url().should("include", "/units/update/");
 
     cy.wait("@getDataUnitDetailById").then((interception) => {
       expect([200, 201]).to.include(interception.response.statusCode);
       cy.wait(2500);
       const unitsDetail = interception?.response?.body;
       console.log(unitsDetail);
-      // cy.get('[name="name"]').should("have.value", unitsDetail.name);
-      // cy.get('[name="vin_sn"]').should("have.value", unitsDetail.vin_sn);
-      // cy.get('[name="license_plate"]').should(
-      //   "have.value",
-      //   unitsDetail.license_plate
-      // );
-      // cy.get('[name="year"]').should("have.value", unitsDetail.year);
-      // cy.get(".css-mnn31").eq(4).should("have.value", unitsDetail.trim);
-      // cy.get(".css-mnn31")
-      //   .eq(5)
-      //   .should("have.value", unitsDetail.registration_state_province);
-      // cy.get(".css-mnn31").eq(6).should("have.value", unitsDetail.color);
-      // cy.get(".css-mnn31").eq(7).should("have.value", unitsDetail.msrp);
 
       const selectCheck = [
         { index: 0, value: unitsDetail.type.name },
@@ -126,13 +107,9 @@ describe("Editing Unit by ID", () => {
       .eq(6)
       .should("be.visible")
       .type(truckColors[Math.floor(Math.random() * truckColors.length)]);
-    // cy.get(".css-mnn31")
-    //   .eq(7)
-    //   .should("be.visible")
-    //   .type(
-    //     truckMsrpRanges[Math.floor(Math.random() * truckMsrpRanges.length)]
-    //   );
-    // cy.reload();
+
+    cy.wait(2500);
+
     cy.intercept("PATCH", "/api/v1/vehicles/**/update/").as("editUnitRequest");
     cy.contains("button", "Save").should("be.visible").click();
 
@@ -141,11 +118,6 @@ describe("Editing Unit by ID", () => {
       expect([200, 201]).to.include(interception.response.statusCode);
     });
 
-    cy.contains(".Toastify__toast-body", "Success!", { timeout: 30000 }).should(
-      "be.visible"
-    );
-
-    // cy.wait(2000)
-    // cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); если хотите увидеть подробную информацию
+    cy.contains(".Toastify__toast-body", "Success!").should("be.visible");
   });
 });

@@ -1,16 +1,13 @@
 describe("Test create Inspection-form ", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
-
-  const timeout = { timeout: 50000 };
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1900, 1280);
   });
   const loginAndRedirect = () => {
     cy.loginWith(email, password);
-    cy.url(timeout).should("include", "/units");
+    cy.url().should("include", "/units");
     cy.visit("/inspections/forms");
   };
 
@@ -74,6 +71,7 @@ describe("Test create Inspection-form ", () => {
     cy.get(".css-1hw9j7s").click();
   });
 
+  // DELETE THE FORMS
   // it("should delete created form", () => {
   //   loginAndRedirect();
   //   cy.wait(3000);

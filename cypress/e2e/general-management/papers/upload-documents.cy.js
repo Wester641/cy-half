@@ -2,8 +2,8 @@ import "cypress-file-upload";
 /// <reference types="cypress" />
 
 describe("Test upload files", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   const loginAndVisitPapers = () => {
     cy.loginWith(email, password);

@@ -1,10 +1,9 @@
 describe("Login and create unit", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1900, 1280);
   });
 
   it("should login and verify title on production page", () => {
@@ -16,10 +15,10 @@ describe("Login and create unit", () => {
     );
 
     cy.loginWith(email, password);
-    cy.url({ timeout: 30000 }).should("include", "/units");
+    cy.url().should("include", "/units");
     cy.wait(1500);
 
-    cy.wait("@CompleteRequest", { timeout: 20000 }).then((interception) => {
+    cy.wait("@CompleteRequest").then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
       const downtimeCount = interception.response.body.downtime_count;
       const newVehicleCount = interception.response.body.new_vehicles.count;
@@ -40,7 +39,7 @@ describe("Login and create unit", () => {
         .should("be.visible")
         .and("contain.text", `Last ${periodDays} Days`);
     });
-    cy.wait("@unitsRequest", { timeout: 20000 }).then((interception) => {
+    cy.wait("@unitsRequest").then((interception) => {
       expect(interception.response.statusCode).to.eq(200);
       const unitsCount = interception.response.body.count;
       cy.log("Units count:", unitsCount);
@@ -66,7 +65,7 @@ describe("Login and create unit", () => {
 
     cy.get(".Sidebar_sidebarItem__2s00-").eq(2).should("be.visible").click();
     cy.get(".Sidebar_sidebarItem__popup__b7axi > :nth-child(1)").click();
-    cy.url({ timeout: 30000 }).should("include", "/users");
+    cy.url().should("include", "/users");
 
     cy.wait("@Contacts").then((contacts) => {
       expect(contacts.response.statusCode).to.eq(200);

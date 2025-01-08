@@ -7,12 +7,11 @@ describe("Login and Redirect Test To Units Page", () => {
 
   beforeEach(() => {
     cy.visit(URLs.login);
-    cy.viewport(1920, 1200);
   });
 
   const loginAndRedirect = () => {
     cy.loginWith(email, password);
-    cy.url(500).should("include", "/units");
+    cy.url().should("include", "/units");
     cy.visit("/inspections/forms");
   };
 

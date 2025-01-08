@@ -1,10 +1,9 @@
 describe("Login and Redirect Test", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1300);
   });
 
   it("should create units and verify title on production page", () => {
@@ -36,11 +35,5 @@ describe("Login and Redirect Test", () => {
           });
         }
       });
-    // cy.get('[name="name"]')
-    //   .focus()
-    //   .type(`TTruck #${Math.floor(Math.random() * 10000).toFixed()}`);
-    // cy.get('[name="vin_sn"]')
-    //   .focus()
-    //   .type(`56789${Math.floor(Math.random() * 100000).toFixed()}`);
   });
 });

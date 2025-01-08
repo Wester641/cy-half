@@ -1,10 +1,10 @@
 describe("Login and create unit", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
+
 
   beforeEach(() => {
     cy.visit("/");
-    // cy.viewport(1900, 1280);
   });
 
   it("should login and go to users page and create users, edit users and delete users on production", () => {

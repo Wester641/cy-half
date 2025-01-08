@@ -1,8 +1,8 @@
 // <reference types="cypress" />
 
-describe("Login and create unit", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+describe("Login and create fuel-history", () => {
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   beforeEach(() => {
     cy.visit("/");
@@ -10,7 +10,7 @@ describe("Login and create unit", () => {
 
   it("should fill all fields and create fuel-history", () => {
     cy.loginWith(email, password);
-    cy.url({ timeout: 50000 }).should("include", "/units");
+    cy.url().should("include", "/units");
     cy.visit("/fuel-history");
     cy.wait(3000);
     cy.visit("/fuel-history/create");
@@ -52,7 +52,7 @@ describe("Login and create unit", () => {
 
     cy.get("button[type='submit']").click();
 
-    cy.wait("@createFuel", { timeout: 30000 }).then(({ response }) => {
+    cy.wait("@createFuel").then(({ response }) => {
       expect([200, 201, 204]).to.include(response?.statusCode);
     });
     cy.get(".css-q34dxg").eq(20).click();
@@ -62,7 +62,7 @@ describe("Login and create unit", () => {
   // DELETE
   it("should delete fuel-history", () => {
     cy.loginWith(email, password);
-    cy.url({ timeout: 50000 }).should("include", "/units");
+    cy.url().should("include", "/units");
     cy.visit("/fuel-history");
     cy.wait(3000);
 
