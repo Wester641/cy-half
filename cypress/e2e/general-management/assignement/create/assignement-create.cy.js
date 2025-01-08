@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { URLs } from "../../../../constants/links";
 import { Selectors, today } from "./selectors";
 
 describe("Checking 'assignement create function'", () => {
@@ -11,8 +12,8 @@ describe("Checking 'assignement create function'", () => {
 
   it("should fill all fields and create assignement", () => {
     cy.loginWith(email, password);
-    cy.url().should("include", "/units");
-    cy.visit("/assignments");
+    cy.url().should("include", URLs.units);
+    cy.visit(URLs.assigments);
     cy.wait(3000);
 
     cy.get(Selectors.addButton).click();

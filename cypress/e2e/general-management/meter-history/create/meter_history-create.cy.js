@@ -1,3 +1,4 @@
+import { URLs } from "../../../../constants/links";
 import { Selectors, today } from "./selectors";
 describe("Test Meter History's create funtion", () => {
   const email = Cypress.env("email");
@@ -9,8 +10,8 @@ describe("Test Meter History's create funtion", () => {
 
   it("should visit to meter-history page, and create manually meter history and check a void checkbox", () => {
     cy.loginWith(email, password);
-    cy.url().should("include", "/units");
-    cy.visit("/meter-history");
+    cy.url().should("include", URLs.units);
+    cy.visit(URLs.meterHistory);
 
     cy.get(Selectors.addButton).should(Selectors.visible).click();
     cy.get(Selectors.selectClick).should(Selectors.visible).click();

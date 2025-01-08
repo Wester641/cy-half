@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+import { URLs } from "../../../../constants/links";
 import { Selectors, today } from "./selectors";
 
 describe("Checking 'assignement edit function'", () => {
@@ -11,8 +12,8 @@ describe("Checking 'assignement edit function'", () => {
 
   it("should find created assignement and edit it", () => {
     cy.loginWith(email, password);
-    cy.url().should("include", "/units");
-    cy.visit("/assignments");
+    cy.url().should("include", URLs.units);
+    cy.visit(URLs.assigments);
     cy.wait(3000);
 
     cy.contains(Selectors.nameForSearch).should("be.visible").click();

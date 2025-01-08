@@ -11,10 +11,10 @@ describe("Login and create fuel-history", () => {
 
   it("should fill all fields and create fuel-history", () => {
     cy.loginWith(email, password);
-    cy.url().should("include", "/units");
-    cy.visit("/fuel-history");
+    cy.url().should("include", URLs.units);
+    cy.visit(URLs.fuelHistory);
     cy.wait(3000);
-    cy.visit("/fuel-history/create");
+    cy.visit(URLs.createFuelHistory);
     cy.wait(3000);
 
     cy.intercept("POST", URLs.api.createFuelHistory).as("createFuel");
