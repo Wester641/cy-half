@@ -1,6 +1,6 @@
 describe("Login and create unit", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   const interceptEndpoints = () => {
     cy.intercept("GET", "/api/v1/vehicles/?offset=0&limit=10").as(
@@ -29,17 +29,16 @@ describe("Login and create unit", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1900, 1280);
     interceptEndpoints();
   });
 
   it("should login and verify title on production page", () => {
     // Login and verify URL
     cy.loginWith(email, password);
-    cy.url({ timeout: 30000 }).should("include", "/units");
+    cy.url().should("include", "/units");
 
     // Verify dashboard analytics data
-    cy.wait("@completeRequest", { timeout: 20000 }).then(({ response }) => {
+    cy.wait("@completeRequest").then(({ response }) => {
       expect(response.statusCode).to.eq(200);
       const { downtime_count, new_vehicles } = response.body;
       cy.log(`Downtime count: ${downtime_count}`);
@@ -61,7 +60,7 @@ describe("Login and create unit", () => {
     });
 
     // Verify units count
-    cy.wait("@unitsRequest", { timeout: 20000 }).then(({ response }) => {
+    cy.wait("@unitsRequest").then(({ response }) => {
       expect(response.statusCode).to.eq(200);
       const unitsCount = response.body.count;
       cy.log(`Units count: ${unitsCount}`);
@@ -74,7 +73,7 @@ describe("Login and create unit", () => {
     // Navigate to contacts page and verify
     cy.get(".Sidebar_sidebarItem__2s00-").eq(2).click();
     cy.get(".Sidebar_sidebarItem__popup__b7axi > :nth-child(1)").click();
-    cy.url({ timeout: 30000 }).should("include", "/users");
+    cy.url().should("include", "/users");
 
     cy.wait("@contactsRequest").then(({ response }) => {
       expect(response.statusCode).to.eq(200);
@@ -99,12 +98,11 @@ describe("Login and create unit", () => {
         .eq(i)
         .click();
       cy.contains("Apply").click();
-      cy.wait(1500);  
+      cy.wait(1500);
       cy.wait(
         "@activeContactsRequest" ||
           "@archivedContactsRequest" ||
-          "@inactiveContactsRequest",
-        { timeout: 20000 }
+          "@inactiveContactsRequest"
       ).then(({ response }) => {
         expect(response.statusCode).to.eq(200);
         cy.log(response.body);

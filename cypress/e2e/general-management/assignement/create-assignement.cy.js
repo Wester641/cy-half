@@ -1,14 +1,14 @@
 /// <reference types="cypress" />
 
 describe("Checking assignement create function", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
+
 
   const timeout = { timeout: 50000 };
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1920, 1280);
   });
 
   it("should fill all fields and create assignement", () => {

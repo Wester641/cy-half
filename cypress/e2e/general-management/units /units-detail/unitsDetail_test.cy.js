@@ -1,16 +1,14 @@
 describe("Login and Redirect Test To Units Page", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1080);
   });
 
   it("should check all fields in units detail page with API data", () => {
     cy.loginEnter(email, password);
-    cy.url({ timeout: 10000 }).should("include", "/units");
-    // cy.wait(1500);
+    cy.url().should("include", "/units");
 
     cy.intercept("GET", "/api/v1/vehicles/**/").as("getIdUnitDetail");
     cy.intercept("GET", "/api/v1/vehicles/**/latest-odometer/").as(
@@ -19,13 +17,12 @@ describe("Login and Redirect Test To Units Page", () => {
     cy.intercept("GET", "/api/v1/vehicles/**/linked/").as(
       "getLinkedUnitDetail"
     );
-    // cy.contains(".css-q34dxg", "TTruck").should("be.visible").click();
-    cy.get(".css-1liixou", { timeout: 10000 }).eq(0).click(); // Here you can change the unit name and check
+    cy.get(".css-1liixou").eq(0).click(); // Here you can change the unit name and check
     cy.wait(3000);
 
     // ONLY CHECKING API DATA
 
-    cy.wait("@getIdUnitDetail", { timeout: 10000 }).then((interception) => {
+    cy.wait("@getIdUnitDetail").then((interception) => {
       const unitsDetail = interception?.response?.body;
       cy.wait(2500);
       expect([200, 201, 204]).to.include(interception.response.statusCode);
@@ -54,7 +51,7 @@ describe("Login and Redirect Test To Units Page", () => {
           }`
         );
       }
-      cy.wait("@getInfoLatestOdometer", { timeout: 10000 }).then((odometer) => {
+      cy.wait("@getInfoLatestOdometer").then((odometer) => {
         const unitsOdometer = odometer?.response?.body;
 
         cy.log("Meter:", unitsDetail?.meter || unitsOdometer?.meter_value);
@@ -118,7 +115,7 @@ describe("Login and Redirect Test To Units Page", () => {
     // CHECKING ADD COMMENT FUNCTION
 
     cy.intercept("POST", "/api/v1/vehicles/comments/create/").as("addComment");
-    cy.get('[placeholder="Add a comment"]', { timeout: 30000 })
+    cy.get('[placeholder="Add a comment"]')
       .should("be.visible")
       .type("In my opinion, this is a very good vehicle.");
 
@@ -134,9 +131,6 @@ describe("Login and Redirect Test To Units Page", () => {
           "include.text",
           `${interception?.response?.body?.created_by?.first_name}`
         );
-      // cy.get(".CommentItem_comment__text__4wDBb")
-      //   .eq(0)
-      //   .should("include", `${interception.response.body.comment}&nbsp;`);
     });
 
     cy.wait(2500);
@@ -189,7 +183,7 @@ describe("Login and Redirect Test To Units Page", () => {
 
       cy.contains("Save").should("be.visible").click();
 
-      cy.wait("@linkVehicleRequest", { timeout: 30000 }).then(() => {
+      cy.wait("@linkVehicleRequest").then(() => {
         expect([200, 201, 204]).to.include(
           linkedVehicles?.response?.statusCode
         );

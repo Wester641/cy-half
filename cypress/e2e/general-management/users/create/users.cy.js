@@ -1,6 +1,7 @@
 describe("CRUD in users section", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
+
 
   beforeEach(() => {
     cy.visit("/");
@@ -150,8 +151,9 @@ describe("CRUD in users section", () => {
 });
 
 describe("CRUD in users section", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
+
 
   beforeEach(() => {
     cy.visit("/");

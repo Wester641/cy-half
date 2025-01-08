@@ -1,6 +1,6 @@
 describe("Login and Redirect Test", () => {
-  const email = "zafarzhon77@gmail.com";
-  const password = "zafarzhon77";
+  const email = Cypress.env("email");
+  const password = Cypress.env("password");
 
   const stateRegistration = [
     "Illinois",
@@ -31,7 +31,6 @@ describe("Login and Redirect Test", () => {
 
   beforeEach(() => {
     cy.visit("/");
-    cy.viewport(1700, 1300);
   });
 
   it("should create units and after creating delete this units", () => {
@@ -39,19 +38,15 @@ describe("Login and Redirect Test", () => {
     cy.get('input[type="password"]').type(password);
 
     cy.get('button[type="submit"]').click();
-    cy.url({ timeout: 30000 }).should("include", `/units`);
+    cy.url().should("include", `/units`);
 
-    cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit", {
-      timeout: 30000,
-    })
-      // .should("be.visible")
-      .click();
+    cy.contains(".IconButton_open_block_cont__HN7q1", "Add Unit").click();
 
     cy.wait(2000);
 
-    cy.url({ timeout: 30000 }).should("include", "/create-unit");
+    cy.url().should("include", "/create-unit");
 
-    cy.get('[name="name"]', { timeout: 30000 })
+    cy.get('[name="name"]')
       .focus()
       .type(`FAKE UNIT NAME #${Math.floor(Math.random() * 10000).toFixed()}`);
     cy.get('[name="vin_sn"]')
@@ -105,9 +100,7 @@ describe("Login and Redirect Test", () => {
       expect([200, 201]).to.include(interception.response.statusCode);
     });
 
-    cy.contains(".Toastify__toast-body", "Success!", { timeout: 30000 }).should(
-      "be.visible"
-    );
+    cy.contains(".Toastify__toast-body", "Success!").should("be.visible");
 
     cy.contains(".css-q34dxg", "FAKE UNIT NAME").should("be.visible"); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
 
@@ -115,7 +108,6 @@ describe("Login and Redirect Test", () => {
 
     cy.wait(2000);
 
-    // const eventLoopForDlete = () => {
     cy.contains("FAKE UNIT NAME")
       .should("be.visible")
       .then((truck) => {
@@ -125,7 +117,6 @@ describe("Login and Redirect Test", () => {
           );
 
           cy.get(".css-q34dxg").eq(9).click();
-          // cy.get('.MuiList-root > [tabindex="0"]').clickcy.dragAndDrop('.drag-element', '.drop-target');();
           cy.contains("Delete").click();
           cy.contains("Delete").click();
 
@@ -137,9 +128,5 @@ describe("Login and Redirect Test", () => {
           });
         }
       });
-    // };
-    // for (let f = 0; f < 1; f++) {
-    //   eventLoopForDlete();
-    // }
   });
 });

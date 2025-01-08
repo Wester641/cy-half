@@ -6,7 +6,6 @@ describe("Login and Redirect Test To Units Page", () => {
 
   beforeEach(() => {
     cy.visit(URLs.login);
-    cy.viewport(1920, 1200);
   });
 
   it("should login and verify title on production page", () => {
