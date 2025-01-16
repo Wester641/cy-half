@@ -7,9 +7,9 @@ Cypress.Commands.add("buttonClick", (identifier) => {
 
 // LOGIN COMMAND
 Cypress.Commands.add("loginWith", (email, password) => {
-  cy.get(".css-mnn31", { timeout: 50000 }).eq(0).type(email);
-  cy.get(".css-mnn31", { timeout: 50000 }).eq(1).type(password);
-  cy.get('button[type="submit"]', { timeout: 50000 }).click();
+  cy.get(".css-mnn31").eq(0).type(email);
+  cy.get(".css-mnn31").eq(1).type(password);
+  cy.get('button[type="submit"]').click();
 });
 
 // IN UNIT SECTION, NEED TO CLEAR CHOOSED FILTERS AND APPLY THEM
