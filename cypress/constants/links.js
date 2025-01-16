@@ -1,6 +1,7 @@
 export const URLs = {
   login: "/login",
   units: "/units",
+  users: "/users",
   fuelHistory: "/fuel-history",
   createFuelHistory: "/fuel-history/create",
   assigments: "/assignments",
@@ -9,6 +10,7 @@ export const URLs = {
   createUnit: "/create-unit",
   updateUnit: "/units/update/",
   subPage: "/units?page=1&filter=",
+  userEditPage: "/users/update/",
 
   api: {
     login: "/api/v1/accounts/login/",
@@ -29,5 +31,11 @@ export const URLs = {
     deleteCommentReq: "/api/v1/vehicles/**/comments/delete/",
     linkVehicleReq: `/api/v1/vehicles/**/link/`,
     unLinkVehicleReq: `/api/v1/vehicles/**/unlink/`,
+    contactsReq:
+      "/api/v1/accounts/contacts/?enable_fleetio_access=true&offset=0&limit=10",
+    createUser: "/api/v1/accounts/contacts/create/",
+    deleteUser: "/api/v1/accounts/contacts/**/delete/",
+    editUser: "/api/v1/accounts/contacts/**/update/",
+    getUser: "/api/v1/accounts/contacts/**/",
   },
 };
