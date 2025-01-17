@@ -31,11 +31,19 @@ export const URLs = {
     deleteCommentReq: "/api/v1/vehicles/**/comments/delete/",
     linkVehicleReq: `/api/v1/vehicles/**/link/`,
     unLinkVehicleReq: `/api/v1/vehicles/**/unlink/`,
-    contactsReq:
-      "/api/v1/accounts/contacts/?enable_fleetio_access=true&offset=0&limit=10",
+    contactsReq: "/api/v1/accounts/contacts/?enable_fleetio_access=true",
+
     createUser: "/api/v1/accounts/contacts/create/",
     deleteUser: "/api/v1/accounts/contacts/**/delete/",
     editUser: "/api/v1/accounts/contacts/**/update/",
     getUser: "/api/v1/accounts/contacts/**/",
+    activeContactsRequest:
+      "/api/v1/accounts/contacts/?enable_fleetio_access=true&status=active&offset=0&limit=10",
+    archivedContactsRequest:
+      "/api/v1/accounts/contacts/?enable_fleetio_access=true&status=archived&offset=0&limit=10",
+    inactiveContactsRequest:
+      "/api/v1/accounts/contacts/?enable_fleetio_access=true&status=inactive&offset=0&limit=10",
+    userRoleFilter:
+      "/api/v1/accounts/contacts/?enable_fleetio_access=true&role=",
   },
 };
