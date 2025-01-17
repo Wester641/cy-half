@@ -37,7 +37,7 @@ describe("Test filters in users page", () => {
     cy.get(Selectors.userRoleFilter).eq(0).click();
     cy.get(".css-vubbuv").eq(1).click();
 
-    for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < 5; j++) {
       cy.get(Selectors.userRoleFilter).eq(1).click();
       cy.get(Selectors.userRoleItem).eq(j).click();
       cy.contains(Selectors.button, "Apply").click();
@@ -46,7 +46,7 @@ describe("Test filters in users page", () => {
     cy.get(Selectors.userRoleFilter).eq(0).click();
     cy.get(".css-vubbuv").eq(1).click();
 
-    for (let k = 0; k < 5; k++) {
+    for (let k = 0; k < 3; k++) {
       cy.get(Selectors.subLinks).eq(k).click();
       cy.wait(1000);
     }
