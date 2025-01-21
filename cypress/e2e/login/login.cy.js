@@ -14,6 +14,6 @@ describe("Login and Redirect Test To Units Page", () => {
     cy.wait("@loginRequest").then((interception) => {
       expect([200, 201, 204]).to.include(interception.response.statusCode);
     });
-    cy.url().should("include", "/units");
+    cy.url().should("include", URLs.units);
   });
 });

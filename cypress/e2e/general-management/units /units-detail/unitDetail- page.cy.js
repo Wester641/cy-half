@@ -1,4 +1,7 @@
-describe("Login and Redirect Test To Units Page", () => {
+import { URLs } from "../../../../constants/links";
+import { Selectors } from "./Selectors";
+
+describe("Test unit detail page", () => {
   const email = Cypress.env("email");
   const password = Cypress.env("password");
 
@@ -7,20 +10,18 @@ describe("Login and Redirect Test To Units Page", () => {
   });
 
   it("should check all fields in units detail page with API data", () => {
-    cy.loginEnter(email, password);
-    cy.url().should("include", "/units");
+    cy.loginWith(email, password);
+    cy.url().should("include", URLs.units);
 
-    cy.intercept("GET", "/api/v1/vehicles/**/").as("getIdUnitDetail");
-    cy.intercept("GET", "/api/v1/vehicles/**/latest-odometer/").as(
+    cy.intercept("GET", URLs.api.getUnitDetail).as("getIdUnitDetail");
+    cy.intercept("GET", URLs.api.getInfoLatestOdometerReq).as(
       "getInfoLatestOdometer"
     );
-    cy.intercept("GET", "/api/v1/vehicles/**/linked/").as(
+    cy.intercept("GET", URLs.api.getLinkedUnitDetailReq).as(
       "getLinkedUnitDetail"
     );
-    cy.get(".css-1liixou").eq(0).click(); // Here you can change the unit name and check
+    cy.get(Selectors.firstUnit).eq(0).click();
     cy.wait(3000);
-
-    // ONLY CHECKING API DATA
 
     cy.wait("@getIdUnitDetail").then((interception) => {
       const unitsDetail = interception?.response?.body;
@@ -28,20 +29,16 @@ describe("Login and Redirect Test To Units Page", () => {
       expect([200, 201, 204]).to.include(interception.response.statusCode);
 
       if (unitsDetail?.name) {
-        cy.get(".Breadcrumb_breadcrumb__current_text__26lCj").should(
-          "have.text",
+        cy.get(Selectors.breadCrumb).should(
+          Selectors.haveText,
           unitsDetail.name
         );
-        cy.get(".DetailInfo_profile__info__title__2XtbT").should(
-          "have.text",
-          unitsDetail.name
-        );
+        cy.get(Selectors.title).should(Selectors.haveText, unitsDetail.name);
       }
 
-      // TODO: After fixing type field, need to remove this check
       if (unitsDetail?.type?.name === null) {
-        cy.get(".DetailInfo_profile__info__desc__U6qdb").should(
-          "have.text",
+        cy.get(Selectors.subTitle).should(
+          Selectors.haveText,
           `${unitsDetail?.type?.name || "&nbsp;"}· ${
             unitsDetail?.year || "No year"
           } ${unitsDetail?.make?.name || "No make"} ${
@@ -74,7 +71,7 @@ describe("Login and Redirect Test To Units Page", () => {
 
         const expectedText = `${meterValue}${statusValue}${groupValue}${operatorValue}`;
 
-        cy.get(".DetailInfo_profile__info__driver__3hWmx")
+        cy.get(Selectors.secondSubTitle)
           .invoke("text")
           .then((actualText) => {
             cy.log("Expected:", expectedText);
@@ -105,83 +102,68 @@ describe("Login and Redirect Test To Units Page", () => {
       ];
 
       details.forEach(({ index, value }) => {
-        cy.get(".DetailField_data__bOXlw")
+        cy.get(Selectors.detailInfoBox)
           .eq(index)
-          .should("have.text", value !== null && value)
+          .should(Selectors.haveText, value !== null && value)
           .wait(250);
       });
     });
 
-    // CHECKING ADD COMMENT FUNCTION
-
-    cy.intercept("POST", "/api/v1/vehicles/comments/create/").as("addComment");
-    cy.get('[placeholder="Add a comment"]')
-      .should("be.visible")
+    // Checking add comment function
+    cy.intercept("POST", URLs.api.createCommentReq).as("addComment");
+    cy.get(Selectors.commentField)
+      .should(Selectors.beVisible)
       .type("In my opinion, this is a very good vehicle.");
 
-    cy.get(".MuiButton-contained").should("be.visible").click();
-
+    cy.get(Selectors.addCommentButton).should(Selectors.beVisible).click();
     cy.wait("@addComment").then((interception) => {
       cy.log(interception.response.body.comment);
       cy.log(interception?.response?.body?.created_by?.first_name);
       expect([200, 201]).to.include(interception.response.statusCode);
-      cy.get(".CommentItem_comment__name__E9dc2")
+      cy.get(Selectors.titleUserComment)
         .eq(0)
         .should(
           "include.text",
           `${interception?.response?.body?.created_by?.first_name}`
         );
     });
-
     cy.wait(2500);
 
-    // CHECKING DELETE COMMENT FUNCTION
-
-    cy.intercept("DELETE", "/api/v1/vehicles/**/comments/delete/").as(
-      "deleteComment"
-    );
-    cy.get(".css-1yxmbwk").eq(2).should("be.visible").click();
-    cy.contains("Delete").should("be.visible").click();
+    // Checking delete comment function
+    cy.intercept("DELETE", URLs.api.deleteCommentReq).as("deleteComment");
+    cy.get(Selectors.threeDotsMenu).eq(2).should(Selectors.beVisible).click();
+    cy.contains(Selectors.delete).should(Selectors.beVisible).click();
 
     cy.wait("@deleteComment").then((deleteComment) => {
       expect([200, 201, 204]).to.include(deleteComment?.response?.statusCode);
     });
 
-    // CHECKING LINKED VEHICLES FUNCTION
-
-    //getLinkedUnitDetail
+    // Checking Linked Vehicles Function
     cy.wait("@getLinkedUnitDetail").then((linkedVehicles) => {
       expect([200, 201, 204]).to.include(linkedVehicles?.response?.statusCode);
       const linked_assets = linkedVehicles.response.body;
-      console.log(linked_assets);
+      cy.log(linked_assets);
 
-      cy.get(".DetailInfo_profile__info__title__2XtbT").should(
-        "have.text",
-        linked_assets.name
-      );
+      cy.get(Selectors.title).should(Selectors.haveText, linked_assets.name);
       linked_assets.linked_vehicles.forEach((vehicle, index) => {
-        cy.get(".ItemCard_item_card__content__title__t740I")
+        cy.get(Selectors.linkedVehiclesList)
           .eq(index)
-          .should("have.text", vehicle.name);
+          .should(Selectors.haveText, vehicle.name);
       });
+      cy.intercept("PATCH", URLs.api.linkVehicleReq).as("linkVehicleRequest");
 
-      cy.intercept("PATCH", `/api/v1/vehicles/**/link/`).as(
-        "linkVehicleRequest"
-      );
-
-      // Checking Linked Assets Widget
-      cy.get(".SectionCard_section_card__header__button_cont__button__EjwCb")
+      cy.get(Selectors.linkAssets)
         .eq(3)
-        .should("be.visible")
-        .and("have.text", "Link Asset")
+        .should(Selectors.beVisible)
+        .and(Selectors.haveText, "Link Asset")
         .click();
-      cy.get(".css-19bb58m").should("be.visible").click();
+      cy.get(Selectors.optionUnits).should(Selectors.beVisible).click();
 
-      cy.get(".css-p7gue6-option")
+      cy.get(Selectors.selectUnit)
         .eq(Math.floor(Math.random() * 10))
         .click();
 
-      cy.contains("Save").should("be.visible").click();
+      cy.contains("Save").should(Selectors.beVisible).click();
 
       cy.wait("@linkVehicleRequest").then(() => {
         expect([200, 201, 204]).to.include(
@@ -193,13 +175,13 @@ describe("Login and Redirect Test To Units Page", () => {
 
       cy.wait(2500);
 
-      cy.intercept("PATCH", `/api/v1/vehicles/**/unlink/`).as("unlinkVehicle");
+      cy.intercept("PATCH", URLs.api.unLinkVehicleReq).as("unlinkVehicle");
 
-      cy.contains(".ItemCard_button__LMaiC", "Unassign").click({ force: true });
+      cy.contains(Selectors.unassigned, "Unassign").click({ force: true });
     });
     cy.success("Vehicle successfully unlinked!");
 
     cy.wait(2500);
-    cy.get(".MuiBreadcrumbs-li").eq(0).click();
+    cy.get(Selectors.breadCrumbBack).eq(0).click();
   });
 });
