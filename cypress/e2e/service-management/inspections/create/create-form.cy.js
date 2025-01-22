@@ -11,8 +11,8 @@ describe("Test create Inspection-form", () => {
 
   const loginAndRedirect = () => {
     cy.loginWith(email, password);
-    cy.url().should("include", "/units");
-    cy.visit("/inspections/forms");
+    cy.url().should("include", URLs.units);
+    cy.visit(URLs.inspectionForms);
   };
 
   it("should fill all fields and create inspection-form", () => {
