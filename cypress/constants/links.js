@@ -11,6 +11,7 @@ export const URLs = {
   updateUnit: "/units/update/",
   subPage: "/units?page=1&filter=",
   userEditPage: "/users/update/",
+  inspectionForms: "/inspections/forms",
 
   api: {
     login: "/api/v1/accounts/login/",
