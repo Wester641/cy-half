@@ -14,6 +14,7 @@ export const URLs = {
   inspectionForms: "/inspections/forms",
   issueCreatePage: "/issues/add",
   issues: "/issues",
+  serviceHistory: "/service-history",
   workOrders: "/work-orders",
 
   api: {
