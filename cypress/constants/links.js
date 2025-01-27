@@ -24,6 +24,8 @@ export const URLs = {
   addServiceReminders: "/reminders/services/add",
   addVehicleReminders: "/reminders/vehicles/create",
   addContactReminders: "/reminders/contacts/add",
+  addEquipments: "/equipments/create",
+  equipmentsPage: "/equipments",
 
   api: {
     login: "/api/v1/accounts/login/",
