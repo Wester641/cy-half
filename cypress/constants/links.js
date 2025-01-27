@@ -18,6 +18,12 @@ export const URLs = {
   serviceTaskCreate: "/services/service-task/create",
   serviceTask: "/services/service-task/",
   workOrders: "/work-orders",
+  serviceRemindersPage: "/reminders/services",
+  vehicleRemindersPage: "/reminders/vehicles",
+  contactRemindersPage: "/reminders/contacts",
+  addServiceReminders: "/reminders/services/add",
+  addVehicleReminders: "/reminders/vehicles/create",
+  addContactReminders: "/reminders/contacts/add",
 
   api: {
     login: "/api/v1/accounts/login/",
