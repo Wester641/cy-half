@@ -12,6 +12,12 @@ export const URLs = {
   subPage: "/units?page=1&filter=",
   userEditPage: "/users/update/",
   inspectionForms: "/inspections/forms",
+  issueCreatePage: "/issues/add",
+  issues: "/issues",
+  serviceHistory: "/service-history",
+  serviceTaskCreate: "/services/service-task/create",
+  serviceTask: "/services/service-task/",
+  workOrders: "/work-orders",
 
   api: {
     login: "/api/v1/accounts/login/",
@@ -46,5 +52,6 @@ export const URLs = {
       "/api/v1/accounts/contacts/?enable_fleetio_access=true&status=inactive&offset=0&limit=10",
     userRoleFilter:
       "/api/v1/accounts/contacts/?enable_fleetio_access=true&role=",
+    issuesCreateReq: "/api/v1/issues/create/",
   },
 };
