@@ -26,6 +26,8 @@ export const URLs = {
   addContactReminders: "/reminders/contacts/add",
   addEquipments: "/equipments/create",
   equipmentsPage: "/equipments",
+  addVendors: "/vendor/add",
+  vendorsPage: "/vendor",
 
   api: {
     login: "/api/v1/accounts/login/",
