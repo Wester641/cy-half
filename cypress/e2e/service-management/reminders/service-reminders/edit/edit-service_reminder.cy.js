@@ -14,7 +14,6 @@ describe("Test edit service-reminder", () => {
     cy.url().should("include", URLs.units);
 
     cy.visit(URLs.serviceRemindersPage);
-    // cy.wait(3000);
 
     cy.get(Selectors.firstServiceTaskInList).eq(1).click();
     cy.get(Selectors.editPencil).eq(5).click();
