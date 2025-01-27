@@ -15,6 +15,8 @@ export const URLs = {
   issueCreatePage: "/issues/add",
   issues: "/issues",
   serviceHistory: "/service-history",
+  serviceTaskCreate: "/services/service-task/create",
+  serviceTask: "/services/service-task/",
   workOrders: "/work-orders",
 
   api: {
