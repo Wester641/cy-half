@@ -28,6 +28,8 @@ export const URLs = {
   equipmentsPage: "/equipments",
   addVendors: "/vendor/add",
   vendorsPage: "/vendor",
+  addParts: "/parts/create",
+  partsPage: "/parts",
 
   api: {
     login: "/api/v1/accounts/login/",
