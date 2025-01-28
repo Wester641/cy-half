@@ -22,7 +22,8 @@ describe("Test edit vendor", () => {
 
     cy.get(Selectors.input)
       .eq(0)
-      .type(`Vendor #${Math.floor(Math.random() * 100)}`);
+      .clear()
+      .type(`EDT Vendor #${Math.floor(Math.random() * 100)}`);
 
     cy.get(Selectors.input)
       .eq(2)
