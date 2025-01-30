@@ -40,3 +40,6 @@ export const truckColors = [
 ];
 export const trimTrucks = ["SE", "LE", "XLE"];
 export const truckMsrpRanges = ["80000", "120000", "140000", "180000"];
+
+export const today = new Date().toDateString();
+export const time = new Date().toLocaleTimeString();
