@@ -1,10 +1,15 @@
 {
   "scripts": {
     "test-open": "cypress open",
-    "test": "cypress run"
+    "test": "cypress run",
+    "test-create-unit": "QASE_MODE=testops npx cypress run --spec 'cypress/e2e/general-management/units/create/create-unit.cy.js'"
   },
   "devDependencies": {
     "cypress": "^13.17.0",
-    "cypress-file-upload": "^5.0.8"
+    "cypress-file-upload": "^5.0.8",
+    "cypress-qase-reporter": "^2.2.7"
+  },
+  "dependencies": {
+    "cypress-multi-reporters": "^2.0.5"
   }
 }
