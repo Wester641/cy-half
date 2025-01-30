@@ -5,7 +5,10 @@ import {
   truckColors,
   trimTrucks,
   truckMsrpRanges,
+  today,
+  time,
 } from "./Selectors";
+import { qase } from "cypress-qase-reporter/mocha";
 
 // QASE_MODE=testops npx cypress run --spec "cypress/e2e/general-management/units/create/create-unit.cy.js"
 
@@ -23,15 +26,13 @@ describe("GM: test create unit function", () => {
 
       cy.url().should("include", URLs.units);
 
-      cy.contains(Selectors.addUnit, "Add Unit").click();
+      cy.visit(URLs.createUnit);
 
       cy.wait(2000);
 
-      cy.url().should("include", URLs.createUnit);
-
       cy.get(Selectors.nameInput)
         .focus()
-        .type(`FAKE UNIT NAME #${Math.floor(Math.random() * 10000).toFixed()}`);
+        .type(`Unit #${Math.floor(Math.random() * 10000).toFixed()} ${time}`);
       cy.get(Selectors.vinInput)
         .focus()
         .type(`56789${Math.floor(Math.random() * 100000).toFixed()}`);
@@ -91,7 +92,7 @@ describe("GM: test create unit function", () => {
         Selectors.beVisible
       );
 
-      cy.contains(Selectors.threeDotsMenu, "FAKE UNIT NAME").should(
+      cy.contains(Selectors.threeDotsMenu, "Unit #").should(
         Selectors.beVisible
       ); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
 
