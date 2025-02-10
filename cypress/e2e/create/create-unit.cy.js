@@ -1,3 +1,5 @@
+import { URLs } from "../../constants/links"
+
 describe("GM: test create unit function", () => {
   const email = Cypress.env("email");
   const password = Cypress.env("password");
