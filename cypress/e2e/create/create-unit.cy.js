@@ -1,4 +1,13 @@
 import { URLs } from "../../constants/links"
+import {
+  Selectors,
+  stateRegistration,
+  truckColors,
+  trimTrucks,
+  truckMsrpRanges,
+  today,
+  time,
+} from "./Selectors";
 
 describe("GM: test create unit function", () => {
   const email = Cypress.env("email");
