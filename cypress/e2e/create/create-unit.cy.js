@@ -85,7 +85,7 @@ describe("GM: test create unit function", () => {
 
     cy.contains(Selectors.toastMessage, "Success!").should(Selectors.beVisible);
 
-    cy.contains(Selectors.threeDotsMenu, "Unit #").should(Selectors.beVisible); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
+    cy.contains(Selectors.threeDotsMenu, "cy-half #").should(Selectors.beVisible); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
 
     cy.wait(2000);
   });
