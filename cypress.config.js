@@ -56,6 +56,7 @@ const qasePlugin = require("cypress-qase-reporter/plugin");
 const qaseMetadata = require("cypress-qase-reporter/metadata");
 
 module.exports = {
+  projectId: 'ytha85',
   defaultCommandTimeout: 50000,
   viewportWidth: 1920,
   viewportHeight: 1080,
