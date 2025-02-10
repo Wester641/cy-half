@@ -24,4 +24,4 @@ jobs:
         run: npm ci
 
       - name: Execute all tests
-        run: npm test
+        run: test-create-unit
