@@ -25,3 +25,6 @@ jobs:
 
       - name: Execute all tests
         run: test-create-unit
+        env:
+  QASE_API_TOKEN: ${{ secrets.QASE_API_TOKEN }}
+
