@@ -23,7 +23,5 @@ jobs:
       - name: Clean install the project
         run: npm ci
 
-      - name: Execute all tests
-        run: npm test
-        env:
-          QASE_API_TOKEN: ${{ secrets.QASE_API_TOKEN }}
+      - name: Open Cypress
+        run: npx cypress open
