@@ -1,17 +1,3 @@
-import { URLs } from "../../../../constants/links";
-import {
-  Selectors,
-  stateRegistration,
-  truckColors,
-  trimTrucks,
-  truckMsrpRanges,
-  today,
-  time,
-} from "./Selectors";
-import { qase } from "cypress-qase-reporter/mocha";
-
-// QASE_MODE=testops npx cypress run --spec "cypress/e2e/general-management/units/create/create-unit.cy.js"
-
 describe("GM: test create unit function", () => {
   const email = Cypress.env("email");
   const password = Cypress.env("password");
@@ -19,8 +5,7 @@ describe("GM: test create unit function", () => {
   beforeEach(() => {
     cy.visit("/");
   });
-  // qase(
-  //   35,
+
   it("should create unit", () => {
     cy.loginWith(email, password);
 
@@ -37,7 +22,7 @@ describe("GM: test create unit function", () => {
       .focus()
       .type(`56789${Math.floor(Math.random() * 100000).toFixed()}`);
 
-    // Select random values
+    // Выбор случайных значений
     for (let i = 0; i < 12; i++) {
       cy.get(Selectors.selectContainer)
         .eq(i)
@@ -48,6 +33,7 @@ describe("GM: test create unit function", () => {
         .should(Selectors.beVisible)
         .click();
     }
+
     cy.get(Selectors.licenseInput)
       .focus()
       .type(`IL-TRK123${Math.floor(Math.random() * 10000).toFixed()}`);
@@ -92,5 +78,4 @@ describe("GM: test create unit function", () => {
 
     cy.wait(2000);
   });
-  // );
 });
