@@ -1,4 +1,4 @@
-import { URLs } from "../../constants/links"
+import { URLs } from "../../constants/links";
 import {
   Selectors,
   stateRegistration,
@@ -33,7 +33,6 @@ describe("GM: test create unit function", () => {
       .focus()
       .type(`56789${Math.floor(Math.random() * 100000).toFixed()}`);
 
-    // Выбор случайных значений
     for (let i = 0; i < 12; i++) {
       cy.get(Selectors.selectContainer)
         .eq(i)
@@ -85,7 +84,9 @@ describe("GM: test create unit function", () => {
 
     cy.contains(Selectors.toastMessage, "Success!").should(Selectors.beVisible);
 
-    cy.contains(Selectors.threeDotsMenu, "cy-half #").should(Selectors.beVisible); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
+    cy.contains(Selectors.threeDotsMenu, "cy-half #").should(
+      Selectors.beVisible
+    ); // .click(); IF YOU WANNA SEE VIEW DETAIL INFORMATION ABOUT UNIT
 
     cy.wait(2000);
   });
